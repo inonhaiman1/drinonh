@@ -192,33 +192,9 @@
       .hero-text{ text-align:center; }
     }
   </style>
-
-<style id="a11y-minimal-kit">
-  :focus-visible { outline: 3px solid #f59e0b; outline-offset: 3px; border-radius: 6px; }
-  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-  .skip-link{position:absolute;right:12px;top:-64px;z-index:1000;background:#000;color:#fff;padding:.5rem .8rem;border-radius:8px;text-decoration:none}
-  .skip-link:focus{top:12px}
-  /* Floating A11Y widget (compact) */
-  .a11y-fab{position:fixed;left:16px;bottom:16px;z-index:9999}
-  .a11y-fab button{background:#1f2937;color:#fff;border:none;border-radius:999px;width:52px;height:52px;font-size:22px;cursor:pointer;box-shadow:0 6px 14px rgba(0,0,0,.25)}
-  .a11y-panel{position:fixed;left:16px;bottom:76px;background:#111827;color:#fff;padding:10px;border-radius:12px;box-shadow:0 6px 14px rgba(0,0,0,.25);min-width:210px;display:none}
-  .a11y-panel[aria-hidden="false"]{display:block}
-  .a11y-panel h3{margin:0 0 6px 0;font-size:15px}
-  .a11y-row{display:flex;flex-wrap:wrap;gap:6px}
-  .a11y-btn{background:#374151;color:#fff;border:1px solid #4b5563;border-radius:8px;padding:.35rem .5rem;font-size:13px;cursor:pointer}
-  .a11y-btn[aria-pressed="true"]{border-color:#f59e0b}
-  /* Effect classes on <body>
-  <a class="skip-link" href="#main">דלג לתוכן</a> (applied only when toggled) */
-  .a11y-contrast{background:#000 !important;color:#fff !important}
-  .a11y-contrast a{color:#0ff !important;text-decoration:underline !important}
-  .a11y-links a{text-decoration:underline !important}
-  .a11y-readable{font-family:Arial,Helvetica,sans-serif !important;letter-spacing:.02em}
-</style>
-
 </head>
 <body>
   <div class="container">
-  <span id="main" class="sr-only" aria-hidden="true"></span>
     <!-- HERO -->
     <header>
       <div class="hero-wrap">
@@ -767,53 +743,5 @@
       });
     });
   </script>
-
-<!-- A11Y Floating Widget (compact) -->
-<div class="a11y-fab" role="region" aria-label="כפתור נגישות">
-  <button id="a11y-open" aria-haspopup="true" aria-expanded="false" aria-controls="a11y-panel" title="פתח תפריט נגישות" aria-label="פתח תפריט נגישות">♿</button>
-</div>
-<div id="a11y-panel" class="a11y-panel" role="dialog" aria-hidden="true" aria-label="תפריט נגישות">
-  <h3>כלי נגישות</h3>
-  <div class="a11y-row">
-    <button class="a11y-btn" id="a11y-inc" aria-pressed="false">+ טקסט</button>
-    <button class="a11y-btn" id="a11y-dec" aria-pressed="false">− טקסט</button>
-    <button class="a11y-btn" id="a11y-contrast" aria-pressed="false">ניגודיות</button>
-    <button class="a11y-btn" id="a11y-links" aria-pressed="false">הדגשת קישורים</button>
-    <button class="a11y-btn" id="a11y-readable" aria-pressed="false">פונט קריא</button>
-    <button class="a11y-btn" id="a11y-reset">איפוס</button>
-  </div>
-</div>
-<div id="live" class="sr-only" aria-live="polite"></div>
-
-
-<script>
-(function(){
-  const R=document.documentElement,B=document.body,L=document.getElementById('live');
-  const P=document.getElementById('a11y-panel'),O=document.getElementById('a11y-open');
-  const INC=document.getElementById('a11y-inc'),DEC=document.getElementById('a11y-dec');
-  const C=document.getElementById('a11y-contrast'),K=document.getElementById('a11y-links'),F=document.getElementById('a11y-readable');
-  const S=document.getElementById('a11y-reset');
-  function a(m){ if(!L) return; L.textContent=''; setTimeout(()=>L.textContent=m,30); }
-  function g(){ return parseFloat(getComputedStyle(R).fontSize)||16; }
-  function set(px){ R.style.fontSize=px+'px'; localStorage.setItem('a11y-font',px); }
-  // restore saved prefs
-  (function(){
-    const s=parseFloat(localStorage.getItem('a11y-font')); if(s) R.style.fontSize=s+'px';
-    if(localStorage.getItem('a11y-contrast')==='1'){B.classList.add('a11y-contrast'); C&&C.setAttribute('aria-pressed','true');}
-    if(localStorage.getItem('a11y-links')==='1'){B.classList.add('a11y-links'); K&&K.setAttribute('aria-pressed','true');}
-    if(localStorage.getItem('a11y-readable')==='1'){B.classList.add('a11y-readable'); F&&F.setAttribute('aria-pressed','true');}
-  })();
-  if(O){ O.addEventListener('click',()=>{const open=P.getAttribute('aria-hidden')==='false';P.setAttribute('aria-hidden',open?'true':'false');O.setAttribute('aria-expanded',open?'false':'true');}); }
-  if(INC){ INC.addEventListener('click',()=>{const s=Math.min(g()+2,24); set(s); INC.setAttribute('aria-pressed','true'); a('הטקסט הוגדל');}); }
-  if(DEC){ DEC.addEventListener('click',()=>{const s=Math.max(g()-2,14); set(s); DEC.setAttribute('aria-pressed','true'); a('הטקסט הוקטן');}); }
-  if(C){ C.addEventListener('click',()=>{const on=B.classList.toggle('a11y-contrast'); C.setAttribute('aria-pressed',on?'true':'false'); localStorage.setItem('a11y-contrast',on?'1':'0'); a(on?'ניגודיות הופעלה':'ניגודיות בוטלה');}); }
-  if(K){ K.addEventListener('click',()=>{const on=B.classList.toggle('a11y-links'); K.setAttribute('aria-pressed',on?'true':'false'); localStorage.setItem('a11y-links',on?'1':'0'); a(on?'קישורים הודגשו':'קישורים בוטלו');}); }
-  if(F){ F.addEventListener('click',()=>{const on=B.classList.toggle('a11y-readable'); F.setAttribute('aria-pressed',on?'true':'false'); localStorage.setItem('a11y-readable',on?'1':'0'); a(on?'פונט קריא הופעל':'פונט קריא בוטל');}); }
-  if(S){ S.addEventListener('click',()=>{R.style.fontSize=''; ['a11y-contrast','a11y-links','a11y-readable'].forEach(c=>B.classList.remove(c));
-    [C,K,F].forEach(b=>{ if(b) b.setAttribute('aria-pressed','false'); }); localStorage.removeItem('a11y-font');
-    localStorage.setItem('a11y-contrast','0'); localStorage.setItem('a11y-links','0'); localStorage.setItem('a11y-readable','0'); a('הגדרות אופסו');}); }
-})();
-</script>
-
 </body>
 </html>
